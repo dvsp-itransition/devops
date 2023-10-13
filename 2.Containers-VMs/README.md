@@ -1,2 +1,0 @@
-# Containers + VMs
-Common folder
