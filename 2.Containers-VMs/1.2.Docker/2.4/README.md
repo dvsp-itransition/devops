@@ -131,9 +131,7 @@ nano templates/index.html
 {% extends 'base.html' %}
 
 {% block body %}
-
 <h1>Hello Docker!</h1>
-
 {% endblock %}
 ```
 
@@ -143,7 +141,6 @@ nano templates/login.html
 {% extends 'base.html' %}
 
 {% block body %}
-
 <h1>Login page!</h1>
 
 <form action="" method="POST">
@@ -151,7 +148,6 @@ nano templates/login.html
     <input type="text" name="password" placeholder="Password">
     <input type="submit" value="Login">
 </form>
-
 {% endblock %}
 ```
 
