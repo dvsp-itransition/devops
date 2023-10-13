@@ -29,3 +29,19 @@ fi
 ## Результат:
 
 ![image](img/result.png)
+
+### Заметки
+```
+grep -Ril "error" /var/log/
+-R - рекурсивный поиск.
+-i - игнорировать регистр.
+-l - вывести только имя файла, а не весь результат.
+
+grep -rnw "error" /var/log/
+-r или -R - рекурсивный поиск.
+-n - вывод номера строки.
+-w - только целые слова.
+
+Functions either use the syntax: 
+-function FUNCTION { COMMANDS; }  or FUNCTION () { COMMANDS; }
+```

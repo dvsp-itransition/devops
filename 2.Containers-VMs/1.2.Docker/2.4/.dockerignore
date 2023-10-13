@@ -1,0 +1,3 @@
+*/temp*
+*.md
+!README.md # exclude
