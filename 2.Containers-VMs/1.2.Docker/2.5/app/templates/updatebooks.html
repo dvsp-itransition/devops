@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h3>Update books</h3>
+
+{% for book in books %}
+
+<ul>
+    <li>        
+        <form action="/update" method="post">
+            <input type="hidden" value="{{ book[0] }}" name="id"> <!-- sended as reference to find an exect book--> 
+            <input type="text" value="{{ book[1] }}" name="newname">
+            <input type="text" value="{{ book[2] }}" name="newauthor">
+            <input type="submit" value="update">
+        </form>
+                
+        <!-- for delete books
+        <form action="/delete" method="post">
+            <input type="hidden" value="{{ book[0] }}" name="id">
+            <input type="submit" value="delete">    
+        </form> -->
+    </li>
+</ul>
+
+{% endfor %}
+
+{% endblock %}
+

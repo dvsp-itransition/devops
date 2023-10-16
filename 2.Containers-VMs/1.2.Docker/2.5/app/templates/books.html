@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<!-- <body> -->
+
+<h3>The list of books</h3>
+
+{% for book in books %}
+    
+    <ul>
+        <li>             
+            <form action="" method="get">
+                <input type="text" value=" {{ book[1] }} ">
+                <input type="text" value=" {{ book[2] }} ">
+            </form>
+        </li>
+    </ul>    
+
+{% endfor %}   
+
+<!-- </body> -->
+
+{% endblock %}
+
+
+
+
+
+ 
