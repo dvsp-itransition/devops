@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.application.name }}
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.application.name }}
+  template:
+    metadata:      
+      labels:
+        app: {{ .Values.application.name }}
+    spec:
+      containers:
+      - image: "{{ .Values.image.repository }}"
+        name: {{ .Chart.Name }}
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - "nginx -version"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.port}}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        ports:
+          - containerPort: {{ .Values.service.targetPort}}
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+
+      
+            

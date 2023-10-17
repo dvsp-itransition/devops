@@ -1,0 +1,9 @@
+apiVersion: v2
+name: webapp
+description: webapp Helm Chart
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+maintainers:
+- email: 123@admin.com
+  name: kube

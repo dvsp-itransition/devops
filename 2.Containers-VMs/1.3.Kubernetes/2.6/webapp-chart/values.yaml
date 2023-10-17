@@ -1,0 +1,41 @@
+replicaCount: 2
+
+image:
+  repository: dvsp-webapp:v1
+
+service:
+  name: webapp
+  type: NodePort
+  port: 80
+  targetPort: 80
+  nodePort: 30003
+
+namespace: webapp
+
+application:
+  name: webapp
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "0.25"
+  limits:
+    memory: "512Mi"
+    cpu: "0.5"
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
