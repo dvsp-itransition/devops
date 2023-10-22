@@ -3,14 +3,14 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
     container_name: jenkins
-    privileged: true # gives access to resources of the host machine
+    privileged: true 
     user: root
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     expose:
       - 8080
-      - 50000 # with agents communication
+      - 50000 
 
   nginx:
     image: nginx

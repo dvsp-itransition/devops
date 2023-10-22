@@ -11,4 +11,4 @@ sudo systemctl status docker
 
 # configure 
 sudo usermod -aG docker $USER
-sudo chmod 777 /var/run/docker.sock # to get docker commands in jenkins
+sudo chmod 777 /var/run/docker.sock 
