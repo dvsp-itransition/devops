@@ -1,0 +1,7 @@
+check process elasticsearch with pidfile /var/run/elasticsearch/elasticsearch.pid
+
+    start program = "/bin/systemctl start elasticsearch"
+
+    stop program = "/bin/systemctl stop elasticsearch"
+
+    if failed port 9200 protocol http request "/" then restart

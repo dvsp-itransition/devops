@@ -1,0 +1,69 @@
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install ntpdate, monit, openjdk-8-jdk
+  apt:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - ntpdate
+    - monit
+    - openjdk-8-jdk
+  notify:
+    - start and enable monit
+
+- name: add cronjob to sync time with ntpdate
+  cron:
+    name: cron job
+    minute: '0'
+    hour: '0'
+    job: '/usr/sbin/ntpdate -s ntp.ubuntu.com'
+
+- name: configure monit
+  copy:
+    src: ./roles/logstash/files/elastic.monit
+    dest: /etc/monit/conf.d/elastic.monit
+  notify:
+  - restart monit   
+  
+- name: Download logstash 
+  get_url:
+    url: "{{ logstash.url }}"
+    dest: /tmp/{{ logstash.package }}
+
+- name: Install logstash
+  apt:
+    deb: /tmp/{{ logstash.package }}
+  notify:
+  - start and enable logstash
+
+- name: configure logstash 
+  copy:
+    src: ./roles/logstash/files/logstash.conf
+    dest: /etc/logstash/conf.d/logstash.conf
+  notify:
+  - restart logstash
+
+- name: Download elasticsearch
+  get_url:
+    url: "{{ elastic.url }}"
+    dest: /tmp/{{ elastic.package }}
+
+- name: Install elasticsearch
+  ansible.builtin.apt:
+    deb: /tmp/{{ elastic.package }}
+  notify:
+  - start and enable elasticsearch
+
+- name: get system-uuid
+  shell: 'dmidecode -s system-uuid'
+  register: result
+
+- name: Create configuration file
+  ini_file:
+    path: /tmp/ini_elasticsearch_system_uuid
+    state: present
+    section: general
+    option: uniqueID
+    value: "{{ result.stdout }}"

@@ -1,0 +1,24 @@
+- name: restart monit
+  systemd: 
+    name: monit 
+    state: restarted
+- name: restart logstash
+  systemd: 
+    name: logstash 
+    state: restarted        
+- name: start and enable monit
+  systemd: 
+    name: monit 
+    state: started 
+    enabled: true    
+- name: start and enable logstash
+  systemd:
+    name: logstash
+    state: started
+    enabled: true 
+- name: start and enable elasticsearch
+  systemd:
+    name: elasticsearch
+    state: started
+    enabled: true 
+     

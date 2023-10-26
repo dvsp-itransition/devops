@@ -1,0 +1,83 @@
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install ntpdate, monit, nginx, rsyslog 
+  apt:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - ntpdate
+    - monit
+    - nginx
+    - mc
+    - rsyslog 
+  notify:
+    - start and enable monit
+    - start and enable nginx
+    - start and enable rsyslog
+
+- name: add cronjob to sync time with ntpdate
+  cron:
+    name: cron job
+    minute: '0'
+    hour: '0'
+    job: '/usr/sbin/ntpdate -s ntp.ubuntu.com'
+
+- name: configure monit
+  copy:
+    src: ./roles/webui/files/nginx.monit
+    dest: /etc/monit/conf.d/nginx.monit
+  notify:
+  - restart monit
+
+- name: remove nginx default config
+  file: 
+    path: /etc/nginx/nginx.conf
+    state: absent
+
+- name: configure nginx as reverse proxy for kibana   
+  copy:
+    src: ./roles/webui/files/nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify:
+  - restart nginx
+
+- name: get system-uuid
+  shell: 'dmidecode -s system-uuid'
+  register: result
+
+- name: Download kibana 
+  get_url:
+    url: "{{ kibana.url }}"
+    dest: /tmp/{{ kibana.package }}
+
+- name: Install kibana
+  apt:
+    deb: /tmp/{{ kibana.package }}      
+  notify: 
+  - start and enable kibana
+
+- name: config kibana - elastic URL
+  lineinfile:
+    destfile: /etc/kibana/kibana.yml
+    regexp: 'elasticsearch.hosts'
+    line: 'elasticsearch.hosts: ["{{ elastic.ip }}:{{ elastic.port }}"]'
+  notify:
+  - restart kibana
+
+- name: Create configuration file
+  ini_file:
+    path: /tmp/webui_system_uuid
+    state: present
+    section: general
+    option: uniqueID
+    value: "{{ result.stdout }}"
+
+- name: configure rsyslog
+  copy:
+    src: ./roles/webui/files/60-rsyslog.conf
+    dest: /etc/rsyslog.d/60-rsyslog.conf
+  notify:
+  - restart rsyslog
+

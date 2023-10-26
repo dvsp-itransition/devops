@@ -1,0 +1,36 @@
+- name: restart rsyslog
+  systemd: 
+    name: rsyslog 
+    state: restarted
+- name: restart kibana
+  systemd: 
+    name: kibana 
+    state: restarted        
+- name: restart monit
+  systemd: 
+    name: monit 
+    state: restarted        
+- name: restart nginx
+  systemd: 
+    name: nginx 
+    state: restarted        
+- name: start and enable monit
+  systemd: 
+    name: monit 
+    state: started 
+    enabled: true    
+- name: start and enable nginx
+  systemd: 
+    name: nginx 
+    state: started 
+    enabled: true          
+- name: start and enable rsyslog
+  systemd: 
+    name: rsyslog
+    state: started 
+    enabled: true            
+- name: start and enable kibana
+  systemd:
+    name: kibana
+    state: started
+    enabled: true  

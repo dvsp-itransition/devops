@@ -1,0 +1,15 @@
+---
+- hosts: logstash
+  become: yes
+  roles:
+    - logstash
+
+- hosts: webui
+  become: yes
+  roles:
+    - webui  
+
+- hosts: haproxy
+  become: yes
+  roles:
+    - haproxy  

@@ -1,0 +1,63 @@
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install ntpdate, monit, haproxy
+  apt:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - ntpdate
+    - monit
+    - haproxy
+  notify:
+    - start and enable haproxy
+    - start and enable monit
+
+- name: add cronjob to sync time with ntpdate
+  cron:
+    name: cron job
+    minute: '0'
+    hour: '0'
+    job: '/usr/sbin/ntpdate -s ntp.ubuntu.com'
+
+- name: configure haproxy
+  blockinfile:
+    path: /etc/haproxy/haproxy.cfg
+    block: |
+      listen stats
+          bind *:80
+          stats enable
+          stats uri /monitor          
+
+      frontend www
+          bind *:80
+          default_backend nginx_pool
+
+      backend nginx_pool
+          balance     roundrobin
+          mode http
+          server  webui {{ nginx.ip }}:{{ nginx.port }} check
+  notify:
+    - restart haproxy
+
+- name: configure monit
+  copy:
+    src: ./roles/haproxy/files/haproxy.monit
+    dest: /etc/monit/conf.d/haproxy.monit
+  notify:
+    - restart monit
+
+- name: get system-uuid
+  shell: 'dmidecode -s system-uuid'
+  register: result
+- debug:
+    var: result
+
+- name: Create configuration file
+  ini_file:
+    path: /tmp/ini_haproxy
+    state: present
+    section: general
+    option: uniqueID
+    value: '{{ result.stdout }}'

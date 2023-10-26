@@ -1,0 +1,8 @@
+[nodes]
+logstash ansible_host=172.31.11.115
+webui ansible_host=172.31.14.205
+haproxy ansible_host=172.31.15.247
+
+[nodes:vars]
+ansible_user=ubuntu
+

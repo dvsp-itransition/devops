@@ -1,0 +1,7 @@
+check process haproxy with pidfile /var/run/haproxy.pid
+
+start program = "/etc/init.d/haproxy start"
+stop program = "/etc/init.d/haproxy stop"
+
+if failed port 80 protocol http request "/monitor" then restart
+if cpu > 98% for 5 cycles then restart
