@@ -112,7 +112,7 @@ haproxy -f /etc/haproxy/haproxy.cfg -c
 
 ![ha_ip.PNG](img%2Fha_ip.PNG)
 
-# Результаты
+# Результаты:
 
 
 ![el1.PNG](img%2Fel1.PNG)
