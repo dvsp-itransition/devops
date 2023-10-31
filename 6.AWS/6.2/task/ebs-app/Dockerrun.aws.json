@@ -1,0 +1,32 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "proxy",
+            "image": "mrdockernnm/proxy:eb",
+            "essential": true,
+            "memory": 128,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "app"
+            ]
+        },
+        {
+            "name": "app",
+            "image": "mrdockernnm/app:eb",
+            "memory": 128,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 3000
+                }
+            ]
+        }
+    ]
+}
