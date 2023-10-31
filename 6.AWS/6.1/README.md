@@ -143,35 +143,49 @@ us-west-1c). Две подсети (расположенные в разных �
 
 ![nginx2_psql.PNG](img%2Fnginx2_psql.PNG)
 
-7. ElastiCache:
+#### 7. ElastiCache (Redis):
  - a. Создать один инстанс ElastiCache (Redis) в выделенной VPC.
  - b. Разрешить трафик только внутри выделенной VPC. Как результат: должны продемонстрировать возможность подключения к Redis как минимум с двух иcходных точек (серверов)
+
+#### Установлено redis в выделенной сети demo-VPC
+  - установлен в demo-redis-SG security group, в приватный сеть
+  - открыт порт port=6379 -> source=demo-db-SG, demo-web-SG
+
+![redis_srv1.PNG](img%2Fredis_srv1.PNG)
+
+![redis_srv2.PNG](img%2Fredis_srv2.PNG)
+
+![redis_port.PNG](img%2Fredis_port.PNG)
+
+![nginx_instances.PNG](img%2Fnginx_instances.PNG)
+
+### Подключаемся к redis с наших двух nginx серверов
+
+![ng1_redis.PNG](img%2Fng1_redis.PNG)
+
+![ng2_redis.PNG](img%2Fng2_redis.PNG)
+
+
+#### 7. ElastiCache (Memcached) :
  - c. Создать один инстанс ElastiCache (Memcached) в выделенной VPC.
  - d. Разрешить трафик только от серверов созданных в пункте 5.3. Как результат: должны продемонстрировать возможность подключения к Memcached как минимум с двух иcходных точек (серверов)
 
-Создано 
+#### Установлено memcached кластер в выделенной сети demo-VPC
 
-- Instance Redis
-  - demo-redis-SG security group для redis, сеть приватный
-  - открыт порт port=icmp -> source=demo-db-SG, demo-web-SG
-  - Проверить подключения к Redis с nginx сервера 
-
-![redis.PNG](img%2Fredis.PNG)
-
-![redis_ping.PNG](img%2Fredis_ping.PNG)
-
-![redis_sg.PNG](img%2Fredis_sg.PNG)
-
-- Instance memcached
   - demo-memcached-SG security group, сеть приватный
-  - открыт порт port=icmp -> source=demo-web-SG 
-  - Проверить подключения к Memcached с nginx сервера
+  - открыт порт port=11211 -> source=demo-web-SG 
 
-![mem_instance.PNG](img%2Fmem_instance.PNG)
+![mem1.PNG](img%2Fmem1.PNG)
 
-![mem_ping.PNG](img%2Fmem_ping.PNG)
+![mem2.PNG](img%2Fmem2.PNG)
 
 ![mem_sg.PNG](img%2Fmem_sg.PNG)
+
+#### Проверяем подключения к Memcache с nginx серверов
+
+![mem_con1.PNG](img%2Fmem_con1.PNG)
+
+![mem_con2.PNG](img%2Fmem_con2.PNG)
 
 
 8. Создать CloudFront Distribution с параметрами по умолчанию.
