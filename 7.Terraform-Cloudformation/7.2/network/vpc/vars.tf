@@ -1,0 +1,4 @@
+variable "vpc" {
+  default = "default"
+}
+
