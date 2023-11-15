@@ -2,46 +2,92 @@
 
 **2.6: Знакомство с Kubernetes и Minikube**
 
-> Цель этой задачи - ознакомиться с Kubernetes и Minikube, создать мини-кластер Kubernetes и выполнить несколько базовых операций с контейнерами
-> - Установка Minikube и kubectl: Если еще не установлены Minikube и kubectl, они должны быть установлены их на рабочих станциях.
-> - Запуск Minikube: Создать и запустить локальный мини-кластер Kubernetes с помощью команды minikube start.
-> - Проверка состояния кластера: Использовать команду kubectl cluster-info для проверки состояния кластера Kubernetes и доступности API сервера.
-> - Создание и запуск пода: Создать файл манифеста для пода (например, my-pod.yaml) и запустить его в кластере с помощью kubectl create -f my-pod.yaml. Под должен содержать простое веб-приложение, которое будет доступно через сервис Kubernetes.
-> - Проверка пода и сервиса: Использовать команды kubectl get pods и kubectl get services для проверки состояния своего пода и сервиса. Они также могут использовать команду kubectl describe pod <имя пода> для получения дополнительной информации о поде.
-> - Журналы и отладка: Использовать команду kubectl logs <имя пода> для просмотра журналов пода и команду kubectl exec -it <имя пода> --
-/bin/bash для отладки внутри контейнера пода.
-> - Остановка и удаление ресурсов: Остановить и удалить свой под и сервис с помощью команд kubectl delete pod <имя пода> и kubectl delete service <имя сервиса>
-> - Остановка Minikube: По окончании задачи, остановить локальный мини-кластер Kubernetes с помощью minikube stop.
-> - Отчет: Подготовить отчет, описывающий все действия, выполненные ими при знакомстве с Kubernetes и Minikube, включая команды и результаты. Отчет также должен включать в себя выводы и впечатления от работы с Kubernetes.
+Цель этой задачи - ознакомиться с Kubernetes и Minikube, создать мини-кластер Kubernetes и выполнить несколько базовых операций с контейнерами
 
-## Решение:
+- Установка Minikube и kubectl: Если еще не установлены Minikube и kubectl, они должны быть установлены их на рабочих станциях
+
+Устанавливаем minikube, kubectl
+
+nano minikube.sh
+```
+#!/bin/bash
+sudo apt update 
+# installs kubectl
+curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/local/bin/kubectl
+alias k=kubectl
+# installs & starts minikube 
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.23.2/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+sudo apt install conntrack
+sudo apt -y install docker.io
+
+```
+
+- Запуск Minikube: Создать и запустить локальный мини-кластер Kubernetes с помощью команды minikube start.
+- Проверка состояния кластера: Использовать команду kubectl cluster-info для проверки состояния кластера Kubernetes и доступности API сервера.
+
+```
+minikube start --vm-driver=none
+kubectl cluster-info
+minikube status
+```
+![k_status.PNG](2.6%2Fimg%2Fk_status.PNG)
+
+
+- Создание и запуск пода: Создать файл манифеста для пода (например, my-pod.yaml) и запустить его в кластере с помощью kubectl create -f my-pod.yaml. Под должен содержать простое веб-приложение, которое будет доступно через сервис Kubernetes.
+
+```
+ kubectl run my-pod --image=nginx --dry-run=client -o yaml > my-pod.yaml
+ kubectl create -f my-pod.yaml
+ kubectl expose pod my-pod --port 80 --name svc-pod 
+```
+
+nano my-pod.yaml
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: my-pod
+  name: my-pod
+spec:
+  containers:
+  - image: nginx
+    name: my-pod
+```
+
+- Проверка пода и сервиса: Использовать команды kubectl get pods и kubectl get services для проверки состояния своего пода и сервиса. 
+
+![g_pods_svc.PNG](2.6%2Fimg%2Fg_pods_svc.PNG)
+
+
+- Они также могут использовать команду kubectl describe pod <имя пода> для получения дополнительной информации о поде.
+
+![k_describe.PNG](2.6%2Fimg%2Fk_describe.PNG)
+
+- Журналы и отладка: Использовать команду kubectl logs <имя пода> для просмотра журналов пода и команду kubectl exec -it <имя пода> --/bin/bash для отладки внутри контейнера пода.
+
+![k_logs_pod.PNG](2.6%2Fimg%2Fk_logs_pod.PNG)
+
+![k_exec.PNG](2.6%2Fimg%2Fk_exec.PNG)
+
+
+- Остановка и удаление ресурсов: Остановить и удалить свой под и сервис с помощью команд kubectl delete pod <имя пода> и kubectl delete service <имя сервиса>
+
+![k_del.PNG](2.6%2Fimg%2Fk_del.PNG)
+
+- Остановка Minikube: По окончании задачи, остановить локальный мини-кластер Kubernetes с помощью minikube stop.
+
+![m_stop.PNG](2.6%2Fimg%2Fm_stop.PNG)
+
+#### Дополнительно к задаче, я создал манифест файлы deployment, service, namespace и веб-приложение в контейнере nginx и использовал helm charts для его дальнейшего развертывания.
 
 **Структура**
 
 ![structure.PNG](2.6%2Fimg%2Fstructure.PNG)
 
-**Устанавливаем minikube, docker, kubectl**
+Запуск миникуб
 
-nano minikube.sh
-```
-#!/bin/bash
-
-# Installs docker
-sudo apt update && sudo apt -y install docker.io
-
-# installs kubectl
-curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/local/bin/kubectl
-alias k=kubectl
-
-# installs & starts minikube 
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.23.2/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
-sudo apt install conntrack
-
-# minikube stop
-# minikube delete
-```
-
-**Запускаем minikube**
 ```
 minikube start --vm-driver=none
 kubectl cluster-info
@@ -50,8 +96,6 @@ minikube status
 
 ![44220975-7193-4fb2-863a-a9f2b998844a.png](2.6%2Fimg%2F44220975-7193-4fb2-863a-a9f2b998844a.png)
 
-
-### Для этой задачи я создал манифест файлы для deployment, service, namespace и веб-приложение из контейнера nginx и использовал helm charts для его дальнейшего развертывания.
 
 **Создаем манифест файлы**
 
