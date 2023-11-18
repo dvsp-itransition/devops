@@ -1,5 +1,4 @@
 vagrant init
-vagrant init ansible
 vagrant ssh
 vagrant status
 ssh-keygen -f F:/vagrant/ansible/id_rsa -N ""
