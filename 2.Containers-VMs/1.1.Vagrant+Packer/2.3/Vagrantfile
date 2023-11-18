@@ -1,0 +1,46 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/focal64"
+
+#------------------WEB START--------------------
+
+  config.vm.define "web" do |machine|
+    machine.vm.hostname = "web"
+    machine.vm.network "private_network", ip: "192.168.200.254"
+    machine.vm.provision "shell", inline: "cat /vagrant/id_rsa.pub | tee -a /home/vagrant/.ssh/authorized_keys > /dev/null"
+
+    machine.vm.provider "virtualbox" do |vb|
+      vb.name = "web"
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+  end
+
+#-------------------WEB END----------------------
+
+#----------------ANSIBLE CONTROLLER START------------------
+
+  config.vm.define "ansible" do |machine|
+    machine.vm.hostname = "ansible"
+    machine.vm.network "private_network", ip: "192.168.200.200"
+
+    machine.vm.provision "ansible-install", type: "shell", path: "ansible.sh"
+    machine.vm.provision "file", source: "./id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    machine.vm.provision "file", source: "./id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
+    machine.vm.provision "shell", inline: "chmod 400 /home/vagrant/.ssh/id_rsa"
+
+    machine.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "/vagrant/playbook.yml"
+      ansible.inventory_path = "/vagrant/hosts"
+      ansible.limit          = "all"
+    end
+
+    machine.vm.provider "virtualbox" do |vb|
+      vb.name = "ansible"
+      vb.memory = "2048"
+      vb.cpus = 1
+    end
+  end
+
+#-----------------ANSIBLE CONTROLLER END-------------------
+end

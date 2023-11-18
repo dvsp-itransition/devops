@@ -1,0 +1,12 @@
+vagrant init
+vagrant init ansible
+vagrant ssh
+vagrant status
+ssh-keygen -f F:/vagrant/ansible/id_rsa -N ""
+vagrant ssh-config # lists SSH configs
+vagrant destroy ansible --force
+vagrant up ansible
+vagrant provision
+ansible web -m ping
+ansible-playbook /vagrant/playbook.yml --check
+ansible-playbook /vagrant/playbook.yml
