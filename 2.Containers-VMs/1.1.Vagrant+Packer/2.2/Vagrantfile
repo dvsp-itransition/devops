@@ -1,0 +1,28 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.define "web" do |web|
+    web.vm.box = "ubuntu/focal64"
+    web.vm.hostname = "web"
+    web.vm.network "private_network", ip: "192.168.100.100"
+    web.vm.provision "install", type: "shell", path: "web.sh"
+
+    web.vm.provider "virtualbox" do |vb|
+      vb.name = "web" # vm name on virtual box list
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+  end
+
+  config.vm.define "db" do |db|
+    db.vm.box = "ubuntu/focal64"
+    db.vm.hostname = "db"
+    db.vm.network "private_network", ip: "192.168.100.200"
+    db.vm.provision "install", type: "shell", path: "db.sh"
+
+    db.vm.provider "virtualbox" do |vb|
+      vb.name = "db"
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+  end
+end

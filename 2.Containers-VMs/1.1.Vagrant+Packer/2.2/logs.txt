@@ -1,0 +1,11 @@
+vagrant init
+vagrant up
+vagrant ssh web
+vagrant ssh db
+Vagrant status # Shows status of current box from within it’s containing folder
+Vagrant global-status  # Shows status of ALL boxes
+Vagrant reload
+vagrant stop web
+vagrant stop db
+vagrant halt
+vagrant destroy --force
