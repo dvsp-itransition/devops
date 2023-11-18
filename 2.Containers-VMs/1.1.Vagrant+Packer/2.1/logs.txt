@@ -1,0 +1,9 @@
+vagrant --version
+vagrant init
+vagrant up - powers up os
+vagrant ssh
+vagrant halt - powers off os
+vagrant destroy
+Vagrant box list - lists all downloaded boxes/images
+Vagrant status - state of OS (running/stopped)
+Vagrant reload - restarts OS/applies changes
