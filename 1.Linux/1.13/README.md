@@ -41,8 +41,8 @@ for devname in $devnames; do
     1 )
         echo "Disk $devname is in critical state. $space% of space in use" | tee -a log-`date +%F` 
         echo "Here are the list of temp files older than 30 days to be cleaned" | tee -a log-`date +%F` 
-        find /tmp -type f -mtime +30 | tee -a log-`date +%F`
-        find /var/tmp -type f -mtime +30 | tee -a log-`date +%F`     
+        find /tmp -type f -ctime +30 | tee -a log-`date +%F`
+        find /var/tmp -type f -ctime +30 | tee -a log-`date +%F`     
         ;;
     2 )
          echo "Disk $devname is in warning state. $space% of space in use. Think about to free some space" | tee -a log-`date +%F`  
