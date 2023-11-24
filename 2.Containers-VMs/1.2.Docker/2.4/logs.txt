@@ -1,0 +1,21 @@
+docker build --help
+docker build -t webbapp:v1 .
+docker build --no-cache -t webbapp:v1 .
+docker images
+docker history webapp:v1
+docker run -P -d webapp:v1
+docker ps
+docker ps -a
+docker exec -it admiring_benz /bin/bash
+docker inspect admiring_benz
+docker logs admiring_benz
+docker top db
+docker rm -f db7 041
+trivy image webapp:v1
+dockle webapp:v1
+docker image ls
+docker stop admiring_benz
+docker rm admiring_benz
+docker rmi webapp:v1
+docker rmi $(docker images -aq)
+
