@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/* 
 RUN groupadd -r webapp && useradd -r -g webapp webapp # -r creates system accounts
 WORKDIR /webapp
-COPY ./webapp/* /webapp/
+COPY . .
 RUN pip install -r requirement.txt
 USER webapp
 EXPOSE 5000
