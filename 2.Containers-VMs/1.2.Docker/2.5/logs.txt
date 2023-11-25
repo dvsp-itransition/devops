@@ -1,0 +1,10 @@
+docker compose config
+docker compose build
+docker history dvsp-db:v1
+docker compose up -d
+docker compose ps
+docker compose down
+docker network ls
+docker network inspect 25_frontend
+docker system df # Show docker disk usage
+docker stats # shows cpu/mem used by containers

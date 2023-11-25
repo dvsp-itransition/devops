@@ -86,9 +86,6 @@ networks:
         - subnet: 192.168.20.0/24
           gateway: 192.168.20.1
 
-# docker compose config
-# docker compose build
-# docker history dvsp-db:v1
-# docker compose up -d
+
 
 
