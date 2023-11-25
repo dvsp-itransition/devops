@@ -1,0 +1,54 @@
+# Install docker, docker compose
+sudo apt update && sudo apt install ca-certificates curl gnupg lsb-release -y
+sudo mkdir -m 0755 -p /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o docker.gpg
+sudo mv docker.gpg /etc/apt/keyrings/docker.gpg
+sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee docker.list
+sudo mv docker.list /etc/apt/sources.list.d/docker.list
+sudo apt-get update
+
+# docker packages
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+sudo systemctl enable docker
+sudo usermod -aG docker "$USER"
+
+# docker-compose
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-linux-x86_64 -o /usr/bin/docker-compose
+sudo chmod 777 /usr/bin/docker-compose
+
+docker compose version
+docker version
+
+# install postgres 
+sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql postgresql-client postgresql-contrib -y
+
+systemctl restart postgresql
+systemctl enable postgresql
+systemctl status postgresql
+
+sudo -u postgres psql # connects to postgres
+ALTER USER postgres PASSWORD 'postgres'; # change user password
+\p # check whether the change is applied successfully
+\l # list all db
+\d # list tables
+systemctl restart postgresql
+
+# Install python3,pip
+apt-get install python3 python3-pip -y
+pip install virtualenv # creates virtualenv
+virtualenv env
+source env/bin/activate # (deactivate if needs to stop)
+pip install psycopg2-binary # pip install psycopg2==2.7.5
+pip install flask
+pip list 
+
+# creates table book and input datas
+python initdb_app.py # to input several datas, disable create_table()
+
+sudo -u postgres pg_dump postgres > db_backup.sql # dump postges db
+sudo -u postgres psql postgres < db_backup.sql # restore postges db
+

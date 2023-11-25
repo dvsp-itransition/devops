@@ -9,7 +9,7 @@ def create_table():
     conn.commit() # saves changes
     conn.close() # closes connection
 
-# create_table()   
+create_table()   
 
 def insert_data(): # def insert_data(name, age, address)
     conn = psycopg2.connect(dbname="postgres", user="postgres", password="postgres", host="localhost", port="5432")

@@ -74,14 +74,14 @@ secrets:
 
 networks:
   backend:
-    ipam:
-      driver: default
+    driver: bridge
+    ipam:      
       config:
         - subnet: 192.168.10.0/24
           gateway: 192.168.10.1
   frontend:
-    ipam:
-      driver: default
+    driver: bridge
+    ipam:      
       config:
         - subnet: 192.168.20.0/24
           gateway: 192.168.20.1
