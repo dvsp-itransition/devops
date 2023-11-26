@@ -80,8 +80,9 @@ sudo usermod -aG docker ubuntu
 7. Создать репозиторий в GitHub. Положить в него Jenkinsfile.
 
 - создано git repo -> https://github.com/dvsp-itransition/aws-jenkins-container.git
-- Добавим публичную часть ssh ключа в GitHub: settings -> ssh and GPG keys -> new shh key -> input your ssh public key
-- в jenkins используем SSH URL: git@github.com:dvsp-itransition/aws-jenkins-container.git 
+- Добавим публичную часть ssh ключа пользователя jenkins в GitHub: settings -> ssh and GPG keys -> new shh key -> input your ssh public key
+- переходим к пользователю Jenkins и запускаем команду: `su - jenkins && git ls-remote -h -- git@github.com:dvsp-itransition/aws-jenkins-container.git HEAD`
+- в jenkins используем SSH URL: `git@github.com:dvsp-itransition/aws-jenkins-container.git` 
 
 8. В Jenkinsfile указать stages со скриптом проброса туннеля docker socket (https://medium.com/@dperny/forwarding-the-docker-socket-over-ssh-e6567cfab160) 
    для управления контейнерами в Staging
