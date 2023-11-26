@@ -26,11 +26,11 @@ sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debi
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null 
 sudo apt-get update 
-sudo apt-get install jenkins -y
+sudo apt-get install jenkins docker.io -y
 
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
-sudo systemctl status jenkins
+
 
 # sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
@@ -89,10 +89,15 @@ sudo usermod -aG docker ubuntu
 Примечания: Команда sleep 5, как видно из комментария, нужна для задержки следующего шага на 5 секунд, т.к. открытие туннеля происходит не моментально и может занять
 некоторое время. Шаг post необходим для удаления туннеля.
 
-9. Создать в Jenkins New Item –> Pipeline. В разделе Pipeline->SCM выбираем Git, вводим адрес репозитория (как в clone). Заодно увидим ошибку Failed to connect to repository, значит нужно положить
+
+9. Создать в Jenkins New Item –> docker-pipeline. В разделе Pipeline->SCM выбираем Git, вводим адрес репозитория (как в clone). Заодно увидим ошибку Failed to connect to repository, значит нужно положить
 содержимое публичного ключа Jenkins instance в ssh ключи Github. Если всё произведено корректно, то ошибка пропадёт.
 
 ![jenkins_git.PNG](img%2Fjenkins_git.PNG)
+
+### Обновить приватный IP машины staging в Jenkinsfile
+
+![i_ip_staging.PNG](img%2Fi_ip_staging.PNG)
 
 10. В разделе Script Path вводим путь к Jenkinsfile. Сохраняем настройки.
 11. Нажимаем Build Now - должна запуститься задача. Заходим в задачу, а затем в Console output. 
