@@ -41,8 +41,8 @@
 - vm2 (jenkins node)
 
 Установил jenkins и nginx proxy сервер как контейнеры, создал проекты staging и production в Jenkins, задача запускается с параметрами, код приложение находится в гите: https://github.com/dvsp-itransition/boxfuse-sample-java-war-hello.git. 
-Настроил webhooks, приложение собирается автоматический по гит коммит/push и запускается как контейнер на второй машине (jenkins node),  
-использовал Amazon ECR для хранения образов. В Jenkins настроил доступ к гиту, VM2 и AWS ECR.
+Работает webhooks, настроил автоматический запуск деплоя при добавлении нового commit’а в ветке “staging” а также при подтверждении pull request’а в ветке
+“master” и приложение запускается как контейнер на второй машине (jenkins node), использовал Amazon ECR для хранения образов. В Jenkins настроил доступ к гиту, VM2 и AWS ECR.
 
 Установка и настройка docker и docker compose 
 
@@ -288,7 +288,7 @@ https://github.com/dvsp-itransition/boxfuse-sample-java-war-hello.git
 
 ![staging_pipeline.PNG](img%2Fstaging_pipeline.PNG)
 
-Добавим новую ветку - master
+Добавим новую ветку - master для проекта production
 
 ```
 git branch master
