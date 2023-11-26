@@ -38,4 +38,17 @@ pipeline {
     }
 }
 
+// ssh -L -> creates remote forward SSH tunnel from remote machine to Docker host machine
+// ssh -nNT -L -> This stops you from running commands over the tunnel you just created
 
+// DOCKER_HOST="unix://\$(pwd)/docker.sock"
+// STAGE_INSTANCE="ubuntu@172.31.33.234"
+
+// sh "ssh -nNT -L \$(pwd)/docker.sock:/var/run/docker.sock ${STAGE_INSTANCE}" 
+//     ssh -nNT -L /var/lib/jenkins/workspace/docker-pipeline/docker.sock:/var/run/docker.sock ubuntu@172.31.15.133
+
+// sh "DOCKER_HOST=${DOCKER_HOST} docker ps -a"
+//     DOCKER_HOST=unix:///var/lib/jenkins/workspace/docker-pipeline/docker.sock docker ps -a # using docker.sock of remote machine
+    
+//     DOCKER_HOST=unix:///var/run/docker.sock docker ps -a == docker ps -a 
+//     DOCKER_HOST=unix:///var/run/docker.sock # default native docker.sock of the host machine
