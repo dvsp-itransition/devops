@@ -143,7 +143,25 @@ docker ps
 
 ![creds.PNG](img%2Fcreds.PNG) 
 
-Добавляем jenkins нода : Jenkins dashboard -> Manage Jenkins -> Manage Nodes
+Настраиваем Jenkins нода
+
+nano node.sh
+```
+#! /bin/bash
+sudo apt update 
+sudo apt install default-jdk docker.io -y
+sudo systemctl enable docker
+sudo systemctl start docker
+
+# configure 
+chmod 777 /var/run/docker.sock
+
+# Installs Trivy to scan docker images
+wget https://github.com/aquasecurity/trivy/releases/download/v0.41.0/trivy_0.41.0_Linux-64bit.deb
+sudo dpkg -i trivy_0.41.0_Linux-64bit.deb
+```
+
+Добавляем нода в jenkins : Jenkins dashboard -> Manage Jenkins -> Manage Nodes
 
 ![node1.PNG](img%2Fnode1.PNG)
 
@@ -154,21 +172,7 @@ Amazon ECR -> Repositories -> create repository
 
 ![5.aws-repo.PNG](img%2F5.aws-repo.PNG)
 
-Настраиваем Jenkins нода
-
-nano node.sh
-```
-#! /bin/bash
-sudo apt update 
-sudo apt install default-jdk  maven docker.io -y
-sudo systemctl enable docker
-sudo systemctl start docker
-sudo systemctl status docker
-
-# Installs Trivy to scan docker images
-wget https://github.com/aquasecurity/trivy/releases/download/v0.41.0/trivy_0.41.0_Linux-64bit.deb
-sudo dpkg -i trivy_0.41.0_Linux-64bit.deb
-```
+#### Использовать ветку "staging"
 
 ## Проект "STAGING"
 
@@ -265,6 +269,14 @@ pipeline {
 }
 ```
 
+Настройка web-hook
+
+![conf_web_hook.PNG](img%2Fconf_web_hook.PNG)
+
+![conf_jenkins_web_hook.PNG](img%2Fconf_jenkins_web_hook.PNG)
+
+Сделал при добавлений нового commit и при push тоже
+
 nano Dockerfile
 ```
 FROM tomcat:8-alpine
@@ -289,9 +301,11 @@ git push -u origin master
 ## Проект "Production"
 
 ### Код приложение, файлы Dockrfile и Jenkinfile выложил в гит и находиться в ветке master: 
-https://github.com/dvsp-itransition/boxfuse-sample-java-war-hello-prod.git
+https://github.com/dvsp-itransition/boxfuse-sample-java-war-hello.git 
 
 ![prod_pipeline.PNG](img%2Fprod_pipeline.PNG)
+
+А также настроено автоматический запуск деплоя при подтверждении pull request’а в ветке “master” в git.
 
 ### Запускаем staging и production пайплайны
 

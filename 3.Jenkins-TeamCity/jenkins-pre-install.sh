@@ -7,7 +7,6 @@ sudo curl -SL https://github.com/docker/compose/releases/download/v2.20.2/docker
 sudo chmod 777 /usr/bin/docker-compose
 sudo systemctl enable docker
 sudo systemctl start docker
-sudo systemctl status docker
 
 # configure 
 sudo usermod -aG docker $USER
