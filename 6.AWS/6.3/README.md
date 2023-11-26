@@ -31,7 +31,6 @@ sudo apt-get install jenkins docker.io -y
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
 
-
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
