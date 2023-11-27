@@ -1,0 +1,19 @@
+eb init - configure your project directory and EB CLI
+eb create - creates your first environment
+eb create --verbose
+eb status - see the current status of your environment
+eb health - view health info about the instances and the state of your overall environment
+eb events - see a list of events output by EB
+eb logs   - pull logs from an instances in your environment
+eb deploy - once the env is running, deploy update
+eb config - take a look at the conf.options available for your running env
+eb terminate - delete environment
+eb terminate --force - skip confirmation prompt
+eb terminate --force --all - terminate everything
+eb --help
+
+eb init # init application
+eb create demo-prod # creates environments
+
+eb init ebs-app --region us-east-2 --platform "ECS running on 64bit Amazon Linux 2023"
+eb create ebs-app-aaa

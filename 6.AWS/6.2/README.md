@@ -2,7 +2,7 @@
 
 ###  Установите и настройте EB CLI
 
-Установка EB CLI
+Установка EB CLI 
 
 ```
 apt update
@@ -19,9 +19,10 @@ source ~/.bash_profile
 # nano /root/.ebcli-virtual-env/executables/eb -> #!/usr/bin/env python3
 eb --version
 ```
+- https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html 
+- https://github.com/aws/aws-elastic-beanstalk-cli-setup 
 
 ![eb_version.PNG](img%2Feb_version.PNG)
-
 
 - Создайте приложение и окружение, используя Dockerrun.aws.json v2
 
