@@ -22,7 +22,7 @@ variable "myhosts" {
 
 module "sec_group" {
   source = "./modules/sec_group"
-  my_ip  = "89.236.248.170/32"
+  ip  = "0.0.0.0/0"
 }
 
 module "server" {

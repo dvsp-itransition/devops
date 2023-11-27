@@ -5,7 +5,7 @@ resource "aws_security_group" "web_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [var.my_ip]
+    cidr_blocks = [var.ip]
   }
 
   egress {
@@ -20,7 +20,7 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
-variable "my_ip" {}
+variable "ip" {}
 
 output "web_sg" {
   value = aws_security_group.web_sg.id
