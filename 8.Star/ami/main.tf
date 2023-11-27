@@ -6,7 +6,7 @@ variable "myhosts" {
   type = map(any)
   default = {
     ami = {
-      type       = "t2.micro"
+      type       = "t2.medium"
       scriptfile = "lamp.sh"
       key        = "amazon2023"
       ssh_user   = "ec2-user"

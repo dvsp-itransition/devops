@@ -9,7 +9,7 @@ variable "key_name" {
 
 # security groups
 variable "my_ip" {
-  default = "89.236.249.33/32"
+  default = "0.0.0.0/0"
 }
 
 variable "subnet" {
@@ -23,7 +23,7 @@ variable "ami" {
 }
 
 variable "type" {
-  default = "t2.micro"
+  default = "t2.medium"
 }
 
 variable "use_pubip" {

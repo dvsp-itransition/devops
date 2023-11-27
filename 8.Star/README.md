@@ -181,6 +181,7 @@ define('DB_PASSWORD', 'admin123');
 ```
 cd ~
 npm install -g gatsby-cli
+dnf install git -y
 gatsby new my-hello-world-starter https://github.com/gatsbyjs/gatsby-starter-hello-world
 cd my-hello-world-starter/
 gatsby develop --host=0.0.0.0
